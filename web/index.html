@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lingo — Emergent Language Visualiser</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500;0,9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <!-- LOGO SLOT: put your logo image in this folder as "logo.png".
+         app.js swaps in the real image if the file exists. -->
+    <div id="logo" class="logo logo-fallback">L</div>
+    <div class="titles">
+      <h1>Lingo<span class="dot">.</span></h1>
+      <p>Watch a population that shares no words invent and agree on a language — entirely through local, pairwise interactions. Each dot is an agent; its colour is the word it currently prefers.</p>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <!-- Simulation viewport -->
+    <div class="stage">
+      <span class="stage-label">Live simulation</span>
+      <canvas id="canvas" width="720" height="560"></canvas>
+    </div>
+
+    <!-- Control + readout column -->
+    <div>
+      <div class="panel">
+        <h2>Controls</h2>
+
+        <div class="control">
+          <label>Population (N) <span class="val" id="popVal">100</span></label>
+          <input type="range" id="pop" min="16" max="225" value="100" step="1" />
+        </div>
+
+        <div class="control">
+          <label>Meanings <span class="val" id="meanVal">3</span></label>
+          <input type="range" id="meanings" min="1" max="6" value="3" step="1" />
+        </div>
+
+        <div class="control">
+          <label>Communication noise <span class="val" id="noiseVal">0%</span></label>
+          <input type="range" id="noise" min="0" max="40" value="0" step="1" />
+        </div>
+
+        <div class="control">
+          <label>Speed (steps / frame) <span class="val" id="speedVal">60</span></label>
+          <input type="range" id="speed" min="1" max="400" value="60" step="1" />
+        </div>
+
+        <div class="control">
+          <label>Interaction network</label>
+          <select id="network">
+            <option value="fully_connected">Fully connected — one global language</option>
+            <option value="grid">Spatial grid — regional dialects</option>
+            <option value="small_world">Small-world — local + bridges</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label>Colour shows preferred word for meaning</label>
+          <select id="viewMeaning"></select>
+        </div>
+
+        <label class="toggle-row">
+          <input type="checkbox" id="showEdges" /> Show network connections
+        </label>
+
+        <div class="buttons" style="margin-top:18px;">
+          <button id="playBtn" class="primary">Pause</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Live readout</h2>
+        <div class="stats">
+          <div class="stat"><div class="k">Interactions</div><div class="v" id="stepStat">0</div></div>
+          <div class="stat"><div class="k">Distinct words</div><div class="v" id="wordStat">0</div></div>
+          <div class="stat"><div class="k">Success rate</div><div class="v" id="successStat">0%</div></div>
+          <div class="stat"><div class="k">Dialects</div><div class="v" id="dialectStat">0</div></div>
+        </div>
+        <p class="hint">
+          Tip: start on <b>fully connected</b> and watch every dot drift to one
+          colour. Switch to <b>spatial grid</b> to see coloured dialect regions
+          form and slowly merge. Add <b>noise</b> to push the system toward its
+          breaking point.
+        </p>
+      </div>
+
+      <!-- Agent Inspector: click a dot to read that agent's real memory. -->
+      <div class="panel">
+        <h2>Agent inspector</h2>
+        <div id="inspector" class="inspector-empty">
+          Click any dot in the simulation to inspect that agent. Its actual
+          word memory — the language inside its head — appears here.
+          <br /><br />Tip: press <b>Pause</b> first for a steady look.
+        </div>
+      </div>
+
+      <!-- Live feed of the pairwise interactions actually being played. -->
+      <div class="panel">
+        <h2>Interaction log</h2>
+        <div id="log" class="log">Waiting for interactions…</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="accent">Lingo</span> — Agent-Based Simulation of Emergent Shared Language &nbsp;·&nbsp;
+    Naming-Game model &nbsp;·&nbsp; Artificial Intelligence Semester Project
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

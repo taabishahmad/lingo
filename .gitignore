@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build / temp
+*.pdf.tmp
+*.log
+
+# Keep results/ and data/ (they are sample outputs worth sharing).
+# If you prefer to regenerate them instead, uncomment the next two lines:
+# results/
+# data/

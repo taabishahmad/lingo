@@ -1,0 +1,4 @@
+network_type,mean_dialects,std_dev
+fully_connected,1,0.0
+grid,21.4,5.31
+small_world,30.4,6.89

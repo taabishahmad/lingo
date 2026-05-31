@@ -1,0 +1,332 @@
+/* Lingo — interactive visualiser styling.
+   Aesthetic: a dark "observatory" instrument. Warm ink background, a
+   characterful serif wordmark, and a monospace instrument panel so the
+   numbers read like a scientific readout. */
+
+:root {
+  --bg: #0d0f14;
+  --panel: #161922;
+  --panel-2: #1d212c;
+  --ink: #e8e6df;
+  --muted: #8b909c;
+  --line: #2a2f3a;
+  --accent: #e0a458;   /* warm amber — brand highlight */
+  --accent-2: #6fb3c9; /* cool teal — secondary accent */
+  --success: #81b29a;
+  --danger: #e07a5f;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, #1a1f2b 0%, transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, #181c26 0%, transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.5;
+  padding: 28px clamp(16px, 4vw, 48px) 48px;
+}
+
+/* ---- Header / wordmark --------------------------------------------- */
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+
+/* LOGO SLOT — drop your logo file in web/ named "logo.png".
+   It will appear here automatically. If absent, a placeholder shows. */
+.logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: contain;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  flex: none;
+}
+.logo-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 26px;
+  color: var(--accent);
+}
+
+.titles h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.titles h1 .dot { color: var(--accent); }
+.titles p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 6px;
+  max-width: 60ch;
+}
+
+/* ---- Layout -------------------------------------------------------- */
+
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .workspace { grid-template-columns: 1fr; }
+}
+
+.stage {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+#canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  background:
+    radial-gradient(700px 380px at 50% 40%, #11141c 0%, #0b0d12 100%);
+}
+
+.stage-label {
+  position: absolute;
+  top: 22px; left: 26px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---- Control panel ------------------------------------------------- */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.panel + .panel { margin-top: 20px; }
+
+.panel h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+
+.control { margin-bottom: 18px; }
+.control label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+.control label .val { color: var(--ink); }
+
+input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--line);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+}
+
+select {
+  width: 100%;
+  background: var(--panel-2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+.toggle-row input { accent-color: var(--accent); cursor: pointer; }
+
+/* ---- Buttons ------------------------------------------------------- */
+
+.buttons { display: flex; gap: 10px; }
+button {
+  flex: 1;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 11px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease;
+}
+button:hover { border-color: var(--accent); }
+button:active { transform: translateY(1px); }
+button.primary {
+  background: var(--accent);
+  color: #1a1206;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---- Stats readout ------------------------------------------------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.stat {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.stat .k {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.stat .v {
+  font-size: 24px;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.stat .v.good { color: var(--success); }
+.stat .v.warn { color: var(--danger); }
+
+.hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+footer {
+  margin-top: 32px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+footer .accent { color: var(--accent); }
+
+/* ---- Agent inspector ----------------------------------------------- */
+
+.inspector-empty {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.insp-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.insp-head .id {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 20px;
+  color: var(--ink);
+}
+.insp-head .deg { font-size: 11px; color: var(--muted); }
+
+.insp-meaning { margin-bottom: 12px; }
+.insp-meaning .m-label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+.chip .swatch {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.chip.preferred {
+  border-color: var(--accent);
+  color: var(--ink);
+  font-weight: 500;
+}
+.chip.preferred::after {
+  content: "★";
+  color: var(--accent);
+  font-size: 10px;
+}
+.chip.none { color: var(--muted); font-style: italic; }
+
+/* ---- Interaction log ----------------------------------------------- */
+
+.log {
+  font-size: 11.5px;
+  line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
+  color: var(--muted);
+}
+.log .entry { padding: 3px 0; border-bottom: 1px solid rgba(42,47,58,0.5); }
+.log .entry:last-child { border-bottom: none; }
+.log .ok { color: var(--success); }
+.log .miss { color: var(--danger); }
+.log .w { color: var(--accent); }
+.log .ag { color: var(--accent-2); }
